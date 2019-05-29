@@ -1,9 +1,23 @@
 package com.example.brom.listviewjsonapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.*;
 
 
 // Create a new class, Mountain, that can hold your JSON data
@@ -24,17 +39,44 @@ import java.net.URL;
 // Implement a "refresh" functionality using Android's menu system
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
+
+    private ArrayList<Mountain> mountainList = new ArrayList<>();
+    private ArrayAdapter<Mountain> mountainAdapter;
+    ListView listView;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mountainAdapter = new ArrayAdapter<Mountain>(
+                this, R.layout.activity_main,R.id.displayTextView,mountainList);
+        listView = (ListView) findViewById(R.id.displayListView);
+
+        listView.setAdapter(mountainAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                //Adapter adapter = adapterView.getAdapter();
+
+                //Mountain mountain = (Mountain)adapter.getItem(i);
+
+                Toast.makeText(getApplicationContext(), "Some text here!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        new FetchData().execute();
     }
 
-    private class FetchData extends AsyncTask<Void,Void,String>{
+    private class FetchData extends AsyncTask<Void,Void,String>
+    {
         @Override
         protected String doInBackground(Void... params) {
+
+            mountainAdapter.clear();
             // These two variables need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -45,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 // Construct the URL for the Internet service
-                URL url = new URL("_ENTER_THE_URL_TO_THE_PHP_SERVICE_SERVING_JSON_HERE_");
+                URL url = new URL("http://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
 
                 // Create the request to the PHP-service, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -101,6 +143,44 @@ public class MainActivity extends AppCompatActivity {
 
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created Mountain class.
+            try {
+                JSONArray jsonArray = new JSONArray(o);
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    // Ditt JSON-objekt som Java
+                    JSONObject json1 = jsonArray.getJSONObject(i);
+                    try
+                    {
+                        // När vi har ett JSONObjekt kan vi hämta ut dess beståndsdelar
+                        String name = json1.getString("name");
+                        int id = json1.getInt("ID");
+                        String type = json1.getString("type");
+                        String company = json1.getString("company");
+                        String location = json1.getString("location");
+                        String category =  json1.getString("category");
+                        int size = json1.getInt("size");
+                        int cost = json1.getInt("cost");
+                        //JSONArray auxdata = json1.getJSONArray("auxdata");
+                        switch (type)
+                        {
+                            case "brom":
+                                //String imgPath = auxdata.getString(0);
+                                //String url = auxdata.getString(1);
+                                Mountain mountain = new Mountain(name, location, size,type,id,size,cost,"", "");
+                                mountainList.add(mountain);
+                                break;
+
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        Log.e("brom", "E:" + e.getMessage());
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
