@@ -5,6 +5,8 @@
     tools:context="example.javatpoint.com.optionmenu.MainActivity">
 
     <item  android:id="@+id/reload"
-        android:title="Reload"
-        app:showAsAction="ifRoom"/>
+        android:title="Reload"/>
+
+    <item  android:id="@+id/about"
+        android:title="About"/>
 </menu>

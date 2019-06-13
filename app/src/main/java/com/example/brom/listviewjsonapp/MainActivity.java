@@ -109,8 +109,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id){
             case R.id.reload:
-                Toast.makeText(getApplicationContext(),"Loading JSON data...",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        "Loading JSON data...",
+                        Toast.LENGTH_LONG).show();
                 refresh();
+                return true;
+            case R.id.about:
+                Toast.makeText(getApplicationContext(),
+                        "There should be some ice cream related about text here...",
+                        Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
