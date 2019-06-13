@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -64,25 +66,55 @@ public class MainActivity extends AppCompatActivity
                 //Adapter adapter = adapterView.getAdapter();
 
                 //Mountain mountain = (Mountain)adapter.getItem(i);
+                if(mountainList.get(i).GetName().equals("Black Panther"))
+                {
+                    Toast.makeText(getApplicationContext(),
+                            mountainList.get(i).GetName() + " is a Marvel Hero from " +
+                            mountainList.get(i).GetLocation() +
+                            " and is 1.83" +
+                            "m tall.",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),
+                            mountainList.get(i).GetName() + " is part of the " +
+                            mountainList.get(i).GetLocation() +
+                            " mountain range and is " +
+                            mountainList.get(i).GetHeight() +
+                            "m high.",
+                            Toast.LENGTH_LONG).show();
+                }
 
-                Toast.makeText(getApplicationContext(),
-                        mountainList.get(i).GetName() + "\n" +
-                        "Location: " + mountainList.get(i).GetLocation() + "\n" +
-                        "Elevation: " + mountainList.get(i).GetHeight(),
-                        Toast.LENGTH_SHORT).show();
             }
         });
-        //refresh(null);
+        refresh();
     }
 
-    public void refresh(View view)
+    public void refresh()
     {
-        //mountainAdapter.clear();
-        //mountainList.clear();
-        //listData.clear();
         mountainList.clear();
-        //mountainAdapter.clear();
         new FetchData().execute();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.reload:
+                Toast.makeText(getApplicationContext(),"Loading JSON data...",Toast.LENGTH_LONG).show();
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class FetchData extends AsyncTask<Void,Void,String>
