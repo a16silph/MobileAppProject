@@ -46,18 +46,18 @@ public class MainActivity extends AppCompatActivity
     private ArrayAdapter<Mountain> mountainAdapter;
     ListView listView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mountainAdapter = new ArrayAdapter<Mountain>(
-                this, R.layout.activity_main,R.id.displayTextView,mountainList);
-        listView = (ListView) findViewById(R.id.displayListView);
-
+        mountainAdapter = new ArrayAdapter<>(
+                this, R.layout.list_item_textview,R.id.listItemTextView,mountainList);
+        listView = findViewById(R.id.displayListView);
         listView.setAdapter(mountainAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
@@ -65,28 +65,42 @@ public class MainActivity extends AppCompatActivity
 
                 //Mountain mountain = (Mountain)adapter.getItem(i);
 
-                Toast.makeText(getApplicationContext(), "Some text here!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        mountainList.get(i).GetName() + "\n" +
+                        "Location: " + mountainList.get(i).GetLocation() + "\n" +
+                        "Elevation: " + mountainList.get(i).GetHeight(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
+        //refresh(null);
+    }
+
+    public void refresh(View view)
+    {
+        //mountainAdapter.clear();
+        //mountainList.clear();
+        //listData.clear();
+        mountainList.clear();
+        //mountainAdapter.clear();
         new FetchData().execute();
     }
 
     private class FetchData extends AsyncTask<Void,Void,String>
     {
         @Override
-        protected String doInBackground(Void... params) {
-
-            mountainAdapter.clear();
-            // These two variables need to be declared outside the try/catch
+        protected String doInBackground(Void... params)
+        {
+            Log.e("SW", "Got into the async task");
+            // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            // Will contain the raw JSON response as a Java string.
+            // Will contain the raw JSON response as a string.
             String jsonStr = null;
 
             try {
-                // Construct the URL for the Internet service
+                // Construct the URL for the php-service
                 URL url = new URL("http://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
 
                 // Create the request to the PHP-service, and open the connection
@@ -94,6 +108,7 @@ public class MainActivity extends AppCompatActivity
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
+                Log.e("SW", "Got past the connect method");
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
@@ -119,8 +134,8 @@ public class MainActivity extends AppCompatActivity
                 return jsonStr;
             } catch (IOException e) {
                 Log.e("PlaceholderFragment", "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in
-                // attempting to parse it.
+                // If the code didn't successfully get the weather data, there's no point in attemping
+                // to parse it.
                 return null;
             } finally{
                 if (urlConnection != null) {
@@ -135,6 +150,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
+
         @Override
         protected void onPostExecute(String o) {
             super.onPostExecute(o);
@@ -143,12 +159,14 @@ public class MainActivity extends AppCompatActivity
 
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created Mountain class.
+            Log.e("SW", "Started on post execute with: " + o);
             try {
                 JSONArray jsonArray = new JSONArray(o);
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     // Ditt JSON-objekt som Java
                     JSONObject json1 = jsonArray.getJSONObject(i);
+                    Log.d("SW","Got here!");
                     try
                     {
                         // När vi har ett JSONObjekt kan vi hämta ut dess beståndsdelar
@@ -161,16 +179,10 @@ public class MainActivity extends AppCompatActivity
                         int size = json1.getInt("size");
                         int cost = json1.getInt("cost");
                         //JSONArray auxdata = json1.getJSONArray("auxdata");
-                        switch (type)
-                        {
-                            case "brom":
-                                //String imgPath = auxdata.getString(0);
-                                //String url = auxdata.getString(1);
-                                Mountain mountain = new Mountain(name, location, size,type,id,size,cost,"", "");
-                                mountainList.add(mountain);
-                                break;
-
-                        }
+                        Mountain mountain = new Mountain(name, location, size,type,id,size,cost,"", "");
+                        mountainList.add(mountain);
+                        //mountainAdapter.add(mountain);
+                        Log.d("SW", "Added mountain: " + name);
                     }
                     catch (JSONException e)
                     {
@@ -180,6 +192,7 @@ public class MainActivity extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            mountainAdapter.notifyDataSetChanged();
 
         }
     }

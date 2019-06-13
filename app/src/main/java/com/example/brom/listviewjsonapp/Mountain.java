@@ -6,7 +6,7 @@ public class Mountain
             name,
             location,
             type;
-    private float height;
+    private int height;
 
     private int
             size,
@@ -29,21 +29,21 @@ public class Mountain
         return location;
     }
 
-    public float GetHeight()
+    public int GetHeight()
     {
         return height;
     }
 
-    public Mountain(String name, String location, float height)
+    public Mountain(String name, String location, int height)
     {
         this.name = name;
         this.location = location;
         this.height = height;
     }
 
-    public Mountain(String name, String location, float height,
-                    String type, int id, int size, int cost, String imgPath,
-                    String url)
+    public Mountain(String name, String location, int height,
+             String type, int id, int size, int cost, String imgPath,
+             String url)
     {
         this.name = name;
         this.location = location;
