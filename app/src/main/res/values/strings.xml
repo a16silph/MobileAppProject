@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">a16silph - project</string>
+    <string name="title_activity_ice_cream_details">iceCreamDetails</string>
 </resources>
