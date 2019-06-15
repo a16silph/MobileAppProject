@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fontFamily="serif-monospace"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:text="textbox"
     android:textAlignment="center"
     android:textAllCaps="true"

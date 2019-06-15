@@ -73,13 +73,7 @@ public class MainActivity extends AppCompatActivity
     /** Called when the user taps the Send button */
     public void sendMessage(View view)
     {
-
-
-        // Do something in response to button
         Intent intent = new Intent(this, iceCreamDetails.class);
-        //EditText editText = (EditText) findViewById(R.id.activityDetails);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
@@ -108,13 +102,12 @@ public class MainActivity extends AppCompatActivity
                         Toast.LENGTH_LONG).show();
                 refresh();
                 return true;
+
             case R.id.about:
-                /*Toast.makeText(getApplicationContext(),
-                        "There should be some ice cream related about text here...",
-                        Toast.LENGTH_LONG).show();*/
                 Intent intent = new Intent(this, about.class);
                 startActivity(intent);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -125,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(Void... params)
         {
-            Log.e("SW", "Got into the async task");
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -143,7 +135,6 @@ public class MainActivity extends AppCompatActivity
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
-                Log.e("SW", "Got past the connect method");
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
@@ -194,33 +185,29 @@ public class MainActivity extends AppCompatActivity
 
             // Implement a parsing code that loops through the entire JSON and creates objects
             // of our newly created IceCream class.
-            Log.e("SW", "Started on post execute with: " + o);
             try {
                 JSONArray jsonArray = new JSONArray(o);
-                Log.e("SW", "Got past the array!");
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     // Ditt JSON-objekt som Java
                     JSONObject json1 = jsonArray.getJSONObject(i);
-                    Log.e("SW", "Got past the object!");
                     try
                     {
                         // När vi har ett JSONObjekt kan vi hämta ut dess beståndsdelar
-                        String name = "" + json1.opt("name");
+                        String name = json1.getString("name");
                         int price = json1.getInt("price");
                         int size = json1.getInt("size");
                         int grades = json1.getInt("grades");
                         int kidsGrades = json1.getInt("kidsGrades");
-                        String tagline = "" + json1.opt("tagline");
-                        String pros = "" + json1.opt("pros");
-                        String cons = "" + json1.opt("cons");
+                        String tagline = json1.getString("tagline");
+                        String pros = json1.getString("pros");
+                        String cons = json1.getString("cons");
                         String imageLink = json1.getString("imageLink");
                         IceCream iceCream = new IceCream(name,
-                                price, size,grades,
-                                kidsGrades,tagline,pros,
+                                price, size, grades,
+                                kidsGrades, tagline, pros,
                                 cons, imageLink);
                         iceCreamList.add(iceCream);
-                        //Log.d("SW", "Added iceCream: " + name);
                     }
                     catch (JSONException e)
                     {

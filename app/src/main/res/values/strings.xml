@@ -6,7 +6,7 @@
 
     <string name="savedIceCreamName">name</string>
     <string name="savedIceCreamPrice">price</string>
-    <string name="savedIceCreamSize">price</string>
+    <string name="savedIceCreamSize">size</string>
     <string name="savedIceCreamGrades">id</string>
     <string name="savedIceCreamKidsGrades">kidsGrades</string>
     <string name="savedIceCreamTagline">tagline</string>

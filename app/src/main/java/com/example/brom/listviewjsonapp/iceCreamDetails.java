@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class iceCreamDetails extends AppCompatActivity {
 
     @Override
@@ -50,7 +52,7 @@ public class iceCreamDetails extends AppCompatActivity {
         prosView.setText("Pros: " + pros);
         consView.setText("Cons: " + cons);
 
-
+        Picasso.get().load(imagePath).fit().into(imageView);
     }
 
 }
