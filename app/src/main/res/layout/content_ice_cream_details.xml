@@ -35,7 +35,7 @@
                 android:fontFamily="serif-monospace"
                 android:text="Strawberry White"
                 android:textAlignment="center"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -55,8 +55,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="serif-monospace"
                     android:text="The strongest brew south of Northrend!"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <TextView
@@ -84,7 +84,7 @@
                 android:fontFamily="serif-monospace"
                 android:text="7/5 skoomas"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/iceCreamKidsGrades"
@@ -93,7 +93,7 @@
                 android:fontFamily="serif-monospace"
                 android:text="7/5 moon sugar"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/iceCreamPros"
@@ -101,8 +101,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
                 android:text="You will never get enough of it!"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/iceCreamCons"
@@ -110,8 +109,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
                 android:text="You will 100% sell your mom's TV for more!"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

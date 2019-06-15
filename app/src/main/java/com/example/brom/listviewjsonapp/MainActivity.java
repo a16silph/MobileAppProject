@@ -206,14 +206,14 @@ public class MainActivity extends AppCompatActivity
                     try
                     {
                         // När vi har ett JSONObjekt kan vi hämta ut dess beståndsdelar
-                        String name = json1.getString("name");
+                        String name = "" + json1.opt("name");
                         int price = json1.getInt("price");
                         int size = json1.getInt("size");
                         int grades = json1.getInt("grades");
                         int kidsGrades = json1.getInt("kidsGrades");
-                        String tagline = json1.getString("tagline");
-                        String pros = json1.getString("pros");
-                        String cons = json1.getString("cons");
+                        String tagline = "" + json1.opt("tagline");
+                        String pros = "" + json1.opt("pros");
+                        String cons = "" + json1.opt("cons");
                         String imageLink = json1.getString("imageLink");
                         IceCream iceCream = new IceCream(name,
                                 price, size,grades,

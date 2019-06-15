@@ -44,7 +44,11 @@ public class iceCreamDetails extends AppCompatActivity {
         nameView.setText(name);
         priceView.setText(price + " sek");
         sizeView.setText(size + " ml");
-
+        gradesView.setText(grades + "/10 vuxenpoäng.");;
+        kidsGradesView.setText(kidsGrades + "/10 barnvänlighet");
+        taglineView.setText(tagline);
+        prosView.setText("Pros: " + pros);
+        consView.setText("Cons: " + cons);
 
 
     }
