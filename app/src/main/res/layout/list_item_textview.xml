@@ -7,7 +7,7 @@
     android:text="textbox"
     android:textAlignment="center"
     android:textAllCaps="true"
-    android:textSize="36sp"
+    android:textSize="18sp"
     android:textStyle="bold">
 
 </TextView>

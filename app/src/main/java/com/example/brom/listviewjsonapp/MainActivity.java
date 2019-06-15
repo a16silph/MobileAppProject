@@ -1,17 +1,14 @@
 package com.example.brom.listviewjsonapp;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -30,22 +27,12 @@ import java.net.URL;
 import java.util.*;
 
 
-// Create a new class, Mountain, that can hold your JSON data
-
-// Create a ListView as in "Assignment 1 - Toast and ListView"
-
-// Retrieve data from Internet service using AsyncTask and the included networking code
-
-// Parse the retrieved JSON and update the ListView adapter
-
-// Implement a "refresh" functionality using Android's menu system
-
 
 public class MainActivity extends AppCompatActivity
 {
 
-    private ArrayList<Mountain> mountainList = new ArrayList<>();
-    private ArrayAdapter<Mountain> mountainAdapter;
+    private ArrayList<IceCream> iceCreamList = new ArrayList<>();
+    private ArrayAdapter<IceCream> iceCreamAdapter;
     ListView listView;
 
     @Override
@@ -53,46 +40,53 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mountainAdapter = new ArrayAdapter<>(
-                this, R.layout.list_item_textview,R.id.listItemTextView,mountainList);
+        iceCreamAdapter = new ArrayAdapter<>(
+                this, R.layout.list_item_textview,R.id.listItemTextView, iceCreamList);
         listView = findViewById(R.id.displayListView);
-        listView.setAdapter(mountainAdapter);
+        listView.setAdapter(iceCreamAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                //Adapter adapter = adapterView.getAdapter();
-
-                //Mountain mountain = (Mountain)adapter.getItem(i);
-                if(mountainList.get(i).GetName().equals("Black Panther"))
-                {
-                    Toast.makeText(getApplicationContext(),
-                            mountainList.get(i).GetName() + " is a Marvel Hero from " +
-                            mountainList.get(i).GetLocation() +
-                            " and is 1.83" +
-                            "m tall.",
-                            Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),
-                            mountainList.get(i).GetName() + " is part of the " +
-                            mountainList.get(i).GetLocation() +
-                            " mountain range and is " +
-                            mountainList.get(i).GetHeight() +
-                            "m high.",
-                            Toast.LENGTH_LONG).show();
-                }
+                SharedPreferences pref = getApplicationContext().getSharedPreferences(getString(R.string.MyPrefsName), MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString(getString(R.string.savedIceCreamName), iceCreamList.get(i).GetName());
+                editor.putInt(getString(R.string.savedIceCreamPrice), iceCreamList.get(i).GetPrice());
+                editor.putInt(getString(R.string.savedIceCreamSize), iceCreamList.get(i).GetSize());
+                editor.putInt(getString(R.string.savedIceCreamGrades), iceCreamList.get(i).GetGrades());
+                editor.putInt(getString(R.string.savedIceCreamKidsGrades), iceCreamList.get(i).GetKidsGrades());
+                editor.putString(getString(R.string.savedIceCreamTagline), iceCreamList.get(i).GetTagline());
+                editor.putString(getString(R.string.savedIceCreamPros), iceCreamList.get(i).GetPros());
+                editor.putString(getString(R.string.savedIceCreamCons), iceCreamList.get(i).GetCons());
+                editor.putString(getString(R.string.savedIceCreamImage), iceCreamList.get(i).GetImagePath());
+                editor.apply();
+                sendMessage(view);
 
             }
         });
         refresh();
     }
 
+
+    /** Called when the user taps the Send button */
+    public void sendMessage(View view)
+    {
+
+
+        // Do something in response to button
+        Intent intent = new Intent(this, iceCreamDetails.class);
+        //EditText editText = (EditText) findViewById(R.id.activityDetails);
+        //String message = editText.getText().toString();
+        //intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
+
     public void refresh()
     {
-        mountainList.clear();
+        iceCreamList.clear();
         new FetchData().execute();
     }
 
@@ -100,7 +94,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -115,9 +109,11 @@ public class MainActivity extends AppCompatActivity
                 refresh();
                 return true;
             case R.id.about:
-                Toast.makeText(getApplicationContext(),
+                /*Toast.makeText(getApplicationContext(),
                         "There should be some ice cream related about text here...",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_LONG).show();*/
+                Intent intent = new Intent(this, about.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -140,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 // Construct the URL for the php-service
-                URL url = new URL("http://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
+                URL url = new URL("http://wwwlab.iit.his.se/a16silph/Programmering_Av_Mobila_Applikationer/glass.json");
 
                 // Create the request to the PHP-service, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -197,31 +193,34 @@ public class MainActivity extends AppCompatActivity
             // the un-parsed JSON string or is null if we had an IOException during the fetch.
 
             // Implement a parsing code that loops through the entire JSON and creates objects
-            // of our newly created Mountain class.
+            // of our newly created IceCream class.
             Log.e("SW", "Started on post execute with: " + o);
             try {
                 JSONArray jsonArray = new JSONArray(o);
+                Log.e("SW", "Got past the array!");
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     // Ditt JSON-objekt som Java
                     JSONObject json1 = jsonArray.getJSONObject(i);
-                    Log.d("SW","Got here!");
+                    Log.e("SW", "Got past the object!");
                     try
                     {
                         // När vi har ett JSONObjekt kan vi hämta ut dess beståndsdelar
                         String name = json1.getString("name");
-                        int id = json1.getInt("ID");
-                        String type = json1.getString("type");
-                        String company = json1.getString("company");
-                        String location = json1.getString("location");
-                        String category =  json1.getString("category");
+                        int price = json1.getInt("price");
                         int size = json1.getInt("size");
-                        int cost = json1.getInt("cost");
-                        //JSONArray auxdata = json1.getJSONArray("auxdata");
-                        Mountain mountain = new Mountain(name, location, size,type,id,size,cost,"", "");
-                        mountainList.add(mountain);
-                        //mountainAdapter.add(mountain);
-                        Log.d("SW", "Added mountain: " + name);
+                        int grades = json1.getInt("grades");
+                        int kidsGrades = json1.getInt("kidsGrades");
+                        String tagline = json1.getString("tagline");
+                        String pros = json1.getString("pros");
+                        String cons = json1.getString("cons");
+                        String imageLink = json1.getString("imageLink");
+                        IceCream iceCream = new IceCream(name,
+                                price, size,grades,
+                                kidsGrades,tagline,pros,
+                                cons, imageLink);
+                        iceCreamList.add(iceCream);
+                        //Log.d("SW", "Added iceCream: " + name);
                     }
                     catch (JSONException e)
                     {
@@ -231,7 +230,7 @@ public class MainActivity extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            mountainAdapter.notifyDataSetChanged();
+            iceCreamAdapter.notifyDataSetChanged();
 
         }
     }

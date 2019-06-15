@@ -11,11 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".about"
+            android:label="@string/activity_about"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.brom.listviewjsonapp.MainActivity" />
+        </activity>
+
         <activity
             android:name=".iceCreamDetails"
             android:label="@string/title_activity_ice_cream_details"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.brom.listviewjsonapp.MainActivity" />

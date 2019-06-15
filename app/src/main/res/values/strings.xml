@@ -1,4 +1,27 @@
 <resources>
     <string name="app_name">a16silph - project</string>
-    <string name="title_activity_ice_cream_details">iceCreamDetails</string>
+    <string name="title_activity_ice_cream_details">Details</string>
+    <string name="activity_about">About</string>
+    <string name="MyPrefsName">MyPrefsFile</string>
+
+    <string name="savedIceCreamName">name</string>
+    <string name="savedIceCreamPrice">price</string>
+    <string name="savedIceCreamSize">price</string>
+    <string name="savedIceCreamGrades">id</string>
+    <string name="savedIceCreamKidsGrades">kidsGrades</string>
+    <string name="savedIceCreamTagline">tagline</string>
+    <string name="savedIceCreamPros">pros</string>
+    <string name="savedIceCreamCons">cons</string>
+    <string name="savedIceCreamImage">image</string>
+
+
+    <string name="aboutTextData">
+        Welcome to the ice cream lover\'s essential guide for the summer.
+        Keep up with the latest ice cream flavours with this easy to use app, and stay in touch with your inner child.
+
+        \n\nThis app is made for anybody who loves a summer ice cream.
+
+        \n\nMade by: Silyphone Phaiboun
+    </string>
+
 </resources>

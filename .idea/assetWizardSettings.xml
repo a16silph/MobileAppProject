@@ -29,12 +29,26 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                     </map>
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\Sissi\Documents\Högskola\Prog.Mobilapplikation\Project\Glasstrut.png" />
+                                      <entry key="outputName" value="ic_icecream_outline" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="40e0d0" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -73,7 +87,6 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="eaebe9" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
                                       <entry key="foregroundImage" value="C:\Users\Sissi\Documents\Högskola\Prog.Mobilapplikation\Project\Glasstrut.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
@@ -125,6 +138,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
